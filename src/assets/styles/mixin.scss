@@ -13,6 +13,7 @@ $ratio: 375 / 10;
   }
 }
 
+// 居中显示
 @mixin center {
   display: flex;
   justify-content: center;
@@ -131,6 +132,7 @@ $ratio: 375 / 10;
   }
 }
 
+// 过渡动画
 .slide-down-enter, .slide-down-leave-to {
   transform: translate3d(0, -100%, 0)
 }
