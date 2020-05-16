@@ -5,8 +5,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  
+  // computed:{
+  //   ...mapGetters([
+  //     'filename'
+  //   ])
+  // },
+  // mounted(){
+  //   this.$store.dispatch()
+  // }
 }
 document.addEventListener('DOMContentLoaded',()=>{
   const html = document.querySelector('html');
@@ -18,9 +27,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 <style lang="scss" scoped>
-  // @import "./assets/styles/global";
-  // .text{
-  //   font-size:px2rem(90);
-  //   color: orange;
-  // }
+#app{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 </style>
