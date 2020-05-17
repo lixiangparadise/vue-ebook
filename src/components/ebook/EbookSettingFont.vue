@@ -37,8 +37,9 @@
 </template>
 
 <script>
-import {ebookMixin} from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 import { FONT_SIZE_LIST } from '../../utils/book'
+import { saveFontSize } from '../../utils/localStorage'
  export default {
      mixins: [ebookMixin],
      data(){
@@ -49,6 +50,8 @@ import { FONT_SIZE_LIST } from '../../utils/book'
      methods:{
          setFontSize(fontSize){
              this.setDefaultFontSize(fontSize);
+             //设置缓存
+             saveFontSize(this.fileName, fontSize);
              this.currentBook.rendition.themes.fontSize(fontSize);
          },
          //设置字体的弹出层

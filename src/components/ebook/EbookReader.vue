@@ -10,6 +10,7 @@
 // import {mapActions} from 'vuex'
 import {ebookMixin} from '../../utils/mixin'
 import Epub from 'epubjs'
+import { getFontFamily, saveFontFamily, getFontSize, saveFontSize } from '../../utils/localStorage'
 global.ePub = Epub
  export default {
     //  vuex mapgetters mapactions mixin
@@ -74,7 +75,32 @@ global.ePub = Epub
                 // 微信兼容性
                 method:'default'
             })
-            this.rendition.display();
+            //display返回promise对象使用then执行下一步
+            //重新载入的时候查看是否有缓存
+            this.rendition.display().then(()=>{
+                //获取缓存中的字体
+                let font = getFontFamily(this.fileName);
+                //如果没有该字体的缓存则保存
+                if(!font){
+                    saveFontFamily(this.fileName, this.defaultFontFamily);
+                }else{
+                    //能被获取则修改
+                    this.rendition.themes.font(font);
+                    this.setDefaultFontFamily(font);
+                }
+                
+                //获取缓存中的字号
+                let fontSize = getFontSize(this.fileName);
+                //没有该字号
+                if(!fontSize){
+                    saveFontSize(this.fileName,this.defaultFontSize);
+                }else{
+                    //有则获取
+                    this.rendition.themes.fontSize(fontSize);
+                    this.defaultFontSize = fontSize;
+                }
+
+            });
             // 电子书使用iframe标签显示
             // iframe添加手势滑动监听
             this.rendition.on("touchstart", event=>{
