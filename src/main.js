@@ -8,10 +8,13 @@ import './assets/styles/icon.css'
 // import './assets/fonts/daysOne.css'
 // 引入global
 import './assets/styles/global.scss'
+// 引入双语
+import i18n from './lang/index'
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  i18n,//挂载
   render: h => h(App)
 }).$mount('#app')

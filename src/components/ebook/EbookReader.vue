@@ -60,6 +60,31 @@ global.ePub = Epub
             this.setSettingVisible(-1);
             this.setFontFamilyVisible(false);
          },
+         //封装 缓存
+         //字号
+         initFontSize(){
+            let fontSize = getFontSize(this.fileName);
+            //没有该字号
+            if(!fontSize){
+                saveFontSize(this.fileName,this.defaultFontSize);
+            }else{
+                //有则获取
+                this.rendition.themes.fontSize(fontSize);
+                this.setDefaultFontSize(fontSize);
+            }
+         },
+         //字体
+         initFontFamily(){
+            let font = getFontFamily(this.fileName);
+            //如果没有该字体的缓存则保存
+            if(!font){
+                saveFontFamily(this.fileName, this.defaultFontFamily);
+            }else{
+                //能被获取则修改
+                this.rendition.themes.font(font);
+                this.setDefaultFontFamily(font);
+            }
+         },
          initEpub(){
             //  获得链接
              const url = "http://localhost:9000/epub/" + this.fileName + '.epub';
@@ -79,27 +104,9 @@ global.ePub = Epub
             //重新载入的时候查看是否有缓存
             this.rendition.display().then(()=>{
                 //获取缓存中的字体
-                let font = getFontFamily(this.fileName);
-                //如果没有该字体的缓存则保存
-                if(!font){
-                    saveFontFamily(this.fileName, this.defaultFontFamily);
-                }else{
-                    //能被获取则修改
-                    this.rendition.themes.font(font);
-                    this.setDefaultFontFamily(font);
-                }
-                
+                this.initFontFamily();
                 //获取缓存中的字号
-                let fontSize = getFontSize(this.fileName);
-                //没有该字号
-                if(!fontSize){
-                    saveFontSize(this.fileName,this.defaultFontSize);
-                }else{
-                    //有则获取
-                    this.rendition.themes.fontSize(fontSize);
-                    this.defaultFontSize = fontSize;
-                }
-
+                this.initFontSize();
             });
             // 电子书使用iframe标签显示
             // iframe添加手势滑动监听

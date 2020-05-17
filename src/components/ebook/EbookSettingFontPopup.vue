@@ -6,7 +6,7 @@
          <div class="ebook-popup-title-icon">
              <span class="icon-down2"></span>
          </div>
-         <div class="ebook-popup-title-text">dsadas</div>
+         <div class="ebook-popup-title-text">{{$t('book.selectFont')}}</div>
      </div>
      <!-- list -->
      <div class="ebook-popup-list-wrapper">

@@ -51,7 +51,6 @@ export function getBookObject(fileName,key){
 export function getFontFamily(fileName){
     return getBookObject(fileName, 'fontFamily');
 }
-
 //缓存字体
 export function saveFontFamily(fileName, fontFamily){
     return setBookObject(fileName, 'fontFamily', fontFamily);
@@ -62,8 +61,17 @@ export function saveFontFamily(fileName, fontFamily){
 export function getFontSize(fileName){
     return getBookObject(fileName, 'fontSize');
 }
-
 //缓存字号
 export function saveFontSize(fileName, fontSize){
     return setBookObject(fileName, 'fontSize', fontSize);
+}
+
+//双语
+//缓存语言
+export function saveLocale(locale){
+    return setLocalStorage('locale', locale);
+}
+//获得语言
+export function getLocale(){
+    return getLocalStorage('locale');
 }
