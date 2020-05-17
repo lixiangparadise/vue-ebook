@@ -7,20 +7,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {ebookMixin} from '../../utils/mixin'
 import Epub from 'epubjs'
 global.ePub = Epub
  export default {
-    
-     computed:{
-         //  将getters通过computed挂载到当前实例，所以不需要通过this.$store.state方法访问
-        //  只需要使用this.即可
-        // 也可以是自定义的对象
-         ...mapGetters([
-             'fileName',
-             'menuVisible'
-            ])
-     },
+    mixins: [ebookMixin],
+    //  computed:{
+    //      //  将getters通过computed挂载到当前实例，所以不需要通过this.$store.state方法访问
+    //     //  只需要使用this.即可
+    //     // 也可以是自定义的对象
+    //      ...mapGetters([
+    //          'fileName',
+    //          'menuVisible'
+    //         ])
+    //  },
      methods:{
          //调用下一页的功能
          nextPage(){
