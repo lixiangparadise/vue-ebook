@@ -14,7 +14,14 @@ const actions = {
     },
     setCurrentBook({ commit }, currentBook){
         return commit('SET_CURRENTBOOK', currentBook)
+    },
+    setDefaultFontFamily({ commit }, defaultFontFamily){
+        return commit('SET_DEFAULTFONTFAMILY', defaultFontFamily)
+    },
+    setFontFamilyVisible({ commit }, fontFamilyVisible){
+        return commit('SET_FONTFAMILYVISIBLE', fontFamilyVisible)
     }
+    
     
 }
 export default actions;

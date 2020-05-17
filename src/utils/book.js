@@ -8,3 +8,11 @@ export const FONT_SIZE_LIST=[
     {fontSize: 22},
     {fontSize: 24}
 ]
+
+export const FONT_FAMILY = [
+    {font: 'Default'},
+    {font: 'Cabin'},
+    {font: 'Days One'},
+    {font: 'Montserrat'},
+    {font: 'Tangerine'}
+]

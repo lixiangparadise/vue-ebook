@@ -44,12 +44,12 @@ global.ePub = Epub
             //  如果为true则隐藏
              if(this.menuVisible){
                 this.setSettingVisible(-1);
+                this.setFontFamilyVisible(false);
             }
             //  console.log("title and menu...");
             //调用action方法并传入参数
             //  this.$store.dispatch('setMenuVisible',!this.menuVisible);
             this.setMenuVisible(!this.menuVisible);
-            
          },
         //  在滑动过程中隐藏
          hideTitleAndMenu(){
@@ -57,6 +57,7 @@ global.ePub = Epub
             // 使用mapactions即可
             this.setMenuVisible(false);
             this.setSettingVisible(-1);
+            this.setFontFamilyVisible(false);
          },
          initEpub(){
             //  获得链接
@@ -98,6 +99,21 @@ global.ePub = Epub
                 // console.log(event);
                 event.preventDefault();//该方法将通知 Web 浏览器不要执行与事件关联的默认动作（如果存在这样的动作）
                 event.stopPropagation();//阻止捕获和冒泡阶段中当前事件的进一步传播。
+            });
+            // ebook渲染在iframe中所以不能直接通过引入字体文件修改web字体
+            //addStylesheet参数必须是url
+            this.rendition.hooks.content.register(contents=>{
+                //简化url
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`);
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`);
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`);
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`);
+                /*contents.addStylesheet('http://192.168.3.17:9000/fonts/daysOne.css');
+                contents.addStylesheet('http://192.168.3.17:9000/fonts/cabin.css');
+                contents.addStylesheet('http://192.168.3.17:9000/fonts/montserrat.css');
+                contents.addStylesheet('http://192.168.3.17:9000/fonts/tangerine.css');*/
+                //也可以采用异步的方式，即上述过程结束后可以做其他工作
+                // Promise.all([上述四句]).then(()=>{})
             })
          }
      },

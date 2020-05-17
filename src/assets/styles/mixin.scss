@@ -153,6 +153,7 @@ $ratio: 375 / 10;
   transform: translate3d(0, px2rem(138), 0)
 }
 
+// 选择字体动画
 .popup-slide-up-enter, .popup-slide-up-leave-to {
   transform: translate3d(0, 100%, 0);
   opacity: 0;

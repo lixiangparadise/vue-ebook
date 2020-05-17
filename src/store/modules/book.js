@@ -9,7 +9,11 @@ const book = {
         settingVisible: -1,
         defaultFontSize: 16,
         // 渲染的book对象
-        currentBook: null
+        currentBook: null,
+        // 默认字体
+        defaultFontFamily: 'Default',
+        // 选择字体部分
+        fontFamilyVisible: false
      },
     mutations:{
         SET_FILENAME(state, fileName){
@@ -26,6 +30,12 @@ const book = {
         },
         SET_CURRENTBOOK(state, currentBook){
             state.currentBook = currentBook;
+        },
+        SET_DEFAULTFONTFAMILY(state, defaultFontFamily){
+            state.defaultFontFamily = defaultFontFamily;
+        },
+        SET_FONTFAMILYVISIBLE(state, fontFamilyVisible){
+            state.fontFamilyVisible = fontFamilyVisible;
         }
     }
     
