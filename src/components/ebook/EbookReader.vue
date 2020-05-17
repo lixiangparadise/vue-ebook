@@ -10,7 +10,9 @@
 // import {mapActions} from 'vuex'
 import {ebookMixin} from '../../utils/mixin'
 import Epub from 'epubjs'
-import { getFontFamily, saveFontFamily, getFontSize, saveFontSize } from '../../utils/localStorage'
+import { getFontFamily, saveFontFamily, 
+         getFontSize, saveFontSize, 
+         getTheme, saveTheme } from '../../utils/localStorage'
 global.ePub = Epub
  export default {
     //  vuex mapgetters mapactions mixin
@@ -86,12 +88,19 @@ global.ePub = Epub
             }
          },
          initTheme(){
+             //缓存问题
+             let defaultTheme = getTheme(this.fileName);
+             if(!defaultTheme){
+                 defaultTheme = this.themeList[0].name;
+                 saveTheme(this.fileName, defaultTheme);
+             }
+             this.setDefaultTheme(defaultTheme);
             //  注册主题
              this.themeList.forEach(theme=>{
                  this.rendition.themes.register(theme.name, theme.style);
              })
              // 选择默认样式
-             this.rendition.themes.select(this.defaultTheme);
+             this.rendition.themes.select(defaultTheme);
          },
          initEpub(){
             //  获得链接

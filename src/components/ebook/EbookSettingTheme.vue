@@ -20,6 +20,7 @@
 <script>
 // import {themeList} from '../../utils/book'
 import {ebookMixin} from '../../utils/mixin'
+import { saveTheme } from '../../utils/localStorage';
  export default {
      mixins:[ebookMixin],
     //  computed:{
@@ -34,6 +35,8 @@ import {ebookMixin} from '../../utils/mixin'
              this.setDefaultTheme(theme.name).then(()=>{
                  this.currentBook.rendition.themes.select(this.defaultTheme)
              });
+             //缓存
+             saveTheme(this.fileName, theme.name);
          }
      }
  }

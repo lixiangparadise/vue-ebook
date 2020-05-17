@@ -66,6 +66,16 @@ export function saveFontSize(fileName, fontSize){
     return setBookObject(fileName, 'fontSize', fontSize);
 }
 
+//主题缓存
+//获取主题
+export function getTheme(fileName){
+    return getBookObject(fileName, 'theme');
+}
+//缓存主题
+export function saveTheme(fileName, theme){
+    return setBookObject(fileName, 'theme', theme);
+}
+
 //双语
 //缓存语言
 export function saveLocale(locale){
