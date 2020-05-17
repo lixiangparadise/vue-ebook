@@ -13,6 +13,7 @@ import Epub from 'epubjs'
 import { getFontFamily, saveFontFamily, 
          getFontSize, saveFontSize, 
          getTheme, saveTheme } from '../../utils/localStorage'
+import { addCss } from '../../utils/book'
 global.ePub = Epub
  export default {
     //  vuex mapgetters mapactions mixin
@@ -102,9 +103,11 @@ global.ePub = Epub
              // 选择默认样式
              this.rendition.themes.select(defaultTheme);
          },
+         
          initEpub(){
             //  获得链接
-             const url = "http://localhost:9000/epub/" + this.fileName + '.epub';
+            //  const url = "http://localhost:9000/epub/" + this.fileName + '.epub';
+             const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub';
             //  console.log(url);
             //新建实例
             this.book = new Epub(url);
@@ -126,6 +129,8 @@ global.ePub = Epub
                 this.initFontSize();
                 //设置theme
                 this.initTheme();
+                // 初始化全局样式
+                this.initGlobalStyle();
             });
             // 电子书使用iframe标签显示
             // iframe添加手势滑动监听

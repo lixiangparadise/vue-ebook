@@ -33,7 +33,9 @@ import { saveTheme } from '../../utils/localStorage';
          setTheme(index){
              const theme = this.themeList[index];
              this.setDefaultTheme(theme.name).then(()=>{
-                 this.currentBook.rendition.themes.select(this.defaultTheme)
+                 this.currentBook.rendition.themes.select(this.defaultTheme);
+                 // 初始化全局样式
+                this.initGlobalStyle();
              });
              //缓存
              saveTheme(this.fileName, theme.name);
