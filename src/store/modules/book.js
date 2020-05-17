@@ -13,7 +13,9 @@ const book = {
         // 默认字体
         defaultFontFamily: 'Default',
         // 选择字体部分
-        fontFamilyVisible: false
+        fontFamilyVisible: false,
+        // 默认主题
+        defaultTheme: 'Default'
      },
     mutations:{
         SET_FILENAME(state, fileName){
@@ -36,6 +38,9 @@ const book = {
         },
         SET_FONTFAMILYVISIBLE(state, fontFamilyVisible){
             state.fontFamilyVisible = fontFamilyVisible;
+        },
+        SET_DEFAULTTHEME(state, defaultTheme){
+            state.defaultTheme = defaultTheme;
         }
     }
     

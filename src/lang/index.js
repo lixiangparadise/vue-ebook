@@ -17,12 +17,12 @@ let locale = getLocale();
 if(!locale){
   locale = 'cn',
   saveLocale(locale);
-  // console.log(locale);
 }
 
 const i18n = new VueI18N({
   locale,
-  messages
+  messages,
+  silentTranslationWarn: true,
 })
 
 export default i18n

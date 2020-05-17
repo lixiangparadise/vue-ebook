@@ -1,5 +1,6 @@
 // 将重复代码复用
 import {mapGetters, mapActions} from 'vuex'
+import {themeList} from './book'
 export const ebookMixin={
     computed:{
         ...mapGetters([
@@ -9,8 +10,13 @@ export const ebookMixin={
             'defaultFontSize',
             'currentBook',
             'defaultFontFamily',
-            'fontFamilyVisible'
-        ])
+            'fontFamilyVisible',
+            'defaultTheme'
+        ]),
+        //  获得themelist数据
+        themeList(){
+            return themeList(this);
+        }
     },
     methods:{
         ...mapActions([
@@ -20,7 +26,8 @@ export const ebookMixin={
             'setDefaultFontSize',
             'setCurrentBook',
             'setDefaultFontFamily',
-            'setFontFamilyVisible'
+            'setFontFamilyVisible',
+            'setDefaultTheme'
         ])
     }
 }

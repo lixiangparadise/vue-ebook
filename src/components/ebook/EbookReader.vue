@@ -85,6 +85,14 @@ global.ePub = Epub
                 this.setDefaultFontFamily(font);
             }
          },
+         initTheme(){
+            //  注册主题
+             this.themeList.forEach(theme=>{
+                 this.rendition.themes.register(theme.name, theme.style);
+             })
+             // 选择默认样式
+             this.rendition.themes.select(this.defaultTheme);
+         },
          initEpub(){
             //  获得链接
              const url = "http://localhost:9000/epub/" + this.fileName + '.epub';
@@ -107,6 +115,8 @@ global.ePub = Epub
                 this.initFontFamily();
                 //获取缓存中的字号
                 this.initFontSize();
+                //设置theme
+                this.initTheme();
             });
             // 电子书使用iframe标签显示
             // iframe添加手势滑动监听
