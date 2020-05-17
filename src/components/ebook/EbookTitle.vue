@@ -48,9 +48,9 @@ import {ebookMixin} from '../../utils/mixin'
     font-size: px2rem(20);
     .left{
         flex: 0 0 px2rem(60);
-        // margin-left: px2rem(15);
+        margin-left: px2rem(15);
         // 居中
-        @include center;
+        @include left;
     }
     .right{
         display: flex;

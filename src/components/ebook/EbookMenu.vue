@@ -1,33 +1,38 @@
 <template>
-<div class="menu-bar">
-     <!-- 底部栏 -->
-     <transition name="slide-up">
-        <div class="menu-wrapper" :class="{'hide-box-shadow': !menuVisible}" v-show="menuVisible">
-            <div class="icon-wrapper">
-                <span class="icon-menu" @click="showSetting(3)"></span>
-            </div>
-            <div class="icon-wrapper">
-                <span class="icon-progress" @click="showSetting(2)"></span>
-            </div>
-            <div class="icon-wrapper">
-                <span class="icon-bright" @click="showSetting(1)"></span>
-            </div>
-            <div class="icon-wrapper">
-                <span class="icon-A" @click="showSetting(0)"></span>
-            </div>
+<div>
+<!-- 底部栏 -->
+<transition name="slide-up">
+    <div class="menu-wrapper" :class="{'hide-box-shadow': !menuVisible || settingVisible>=0}" 
+    v-show="menuVisible">
+        <div class="icon-wrapper">
+            <span class="icon-menu" @click="showSetting(3)"></span>
         </div>
-     </transition>
-     
+        <div class="icon-wrapper">
+            <span class="icon-progress" @click="showSetting(2)"></span>
+        </div>
+        <div class="icon-wrapper">
+            <span class="icon-bright" @click="showSetting(1)"></span>
+        </div>
+        <div class="icon-wrapper">
+            <span class="icon-A" @click="showSetting(0)"></span>
+        </div>
+    </div>
+</transition>
+<ebook-setting-font></ebook-setting-font>
 </div>
 </template>
 
 <script>
 import {ebookMixin} from '../../utils/mixin'
+import EbookSettingFont from './EbookSettingFont'
  export default {
      mixins: [ebookMixin],
+     components:{
+         EbookSettingFont
+     },
      methods:{
          showSetting(key){
-
+             this.setSettingVisible(key);
          }
      }
  }
@@ -35,45 +40,36 @@ import {ebookMixin} from '../../utils/mixin'
 
 <style lang='scss' scoped>
 @import '../../assets/styles/global';
-.menu-bar{
-    .menu-wrapper{
-        position: absolute;
-        left:0;
-        bottom: 0;
-        z-index: 101;
-        display: flex;
-        width:100%;
-        // justify-content: space-between;
-        background-color: white;
-        height: px2rem(48);
-        // 设置向上阴影
-        box-shadow: 0 px2rem(-8) px2rem(8) rgba(0, 0, 0, .15);
-        font-size: px2rem(20);
-        // 隐藏
-        &.hide-box-shadow{
-            box-shadow: none;
+
+.menu-wrapper{
+    position: absolute;
+    left:0;
+    bottom: 0;
+    z-index: 101;
+    display: flex;
+    width:100%;
+    // justify-content: space-between;
+    background-color: white;
+    height: px2rem(48);
+    // 设置向上阴影
+    box-shadow: 0 px2rem(-8) px2rem(8) rgba(0, 0, 0, .15);
+    font-size: px2rem(20);
+    // 隐藏
+    &.hide-box-shadow{
+        box-shadow: none;
+    }
+    .icon-wrapper{
+        flex:1;
+        @include center;
+        .icon-progress {
+            font-size: px2rem(24);
         }
-        .icon-wrapper{
-            flex:1;
-            @include center;
-            .icon-progress {
-                font-size: px2rem(24);
-            }
-            .icon-bright {
-                font-size: px2rem(22);
-            }
+        .icon-bright {
+            font-size: px2rem(22);
         }
-        // &.slide-up-enter, &.slide-up-leave-to{
-        //     transform: translate3d(0, 100%, 0);
-        // }
-        // &.slide-up-enter-to, &.slide-up-leave{
-        //     transform: translate3d(0, 0, 0);
-        // }
-        // &.slide-up-enter-active, &.slide-up-leave-active{
-        //     transition: all, 0.3s linear;
-        // }
     }
 }
+
     
  
 </style>

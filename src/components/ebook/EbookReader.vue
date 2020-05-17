@@ -41,16 +41,22 @@ global.ePub = Epub
              }
          },
          toggleTitleAndMenu(){
+            //  如果为true则隐藏
+             if(this.menuVisible){
+                this.setSettingVisible(-1);
+            }
             //  console.log("title and menu...");
             //调用action方法并传入参数
             //  this.$store.dispatch('setMenuVisible',!this.menuVisible);
             this.setMenuVisible(!this.menuVisible);
+            
          },
         //  在滑动过程中隐藏
          hideTitleAndMenu(){
             //  this.$store.dispatch('setMenuVisible',false);
             // 使用mapactions即可
             this.setMenuVisible(false);
+            this.setSettingVisible(-1);
          },
          initEpub(){
             //  获得链接
@@ -58,6 +64,8 @@ global.ePub = Epub
             //  console.log(url);
             //新建实例
             this.book = new Epub(url);
+            //保存
+            this.setCurrentBook(this.book);
             //通过rendition渲染
             this.rendition = this.book.renderTo('read',{
                 width: innerWidth,
