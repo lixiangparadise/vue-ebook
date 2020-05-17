@@ -7,10 +7,12 @@
 </template>
 
 <script>
+// import {mapActions} from 'vuex'
 import {ebookMixin} from '../../utils/mixin'
 import Epub from 'epubjs'
 global.ePub = Epub
  export default {
+    //  vuex mapgetters mapactions mixin
     mixins: [ebookMixin],
     //  computed:{
     //      //  将getters通过computed挂载到当前实例，所以不需要通过this.$store.state方法访问
@@ -22,6 +24,8 @@ global.ePub = Epub
     //         ])
     //  },
      methods:{
+        // 在methods里面混合
+        //  ...mapActions(['setMenuVisible']),
          //调用下一页的功能
          nextPage(){
              if(this.rendition){
@@ -39,11 +43,14 @@ global.ePub = Epub
          toggleTitleAndMenu(){
             //  console.log("title and menu...");
             //调用action方法并传入参数
-             this.$store.dispatch('setMenuVisible',!this.menuVisible);
+            //  this.$store.dispatch('setMenuVisible',!this.menuVisible);
+            this.setMenuVisible(!this.menuVisible);
          },
         //  在滑动过程中隐藏
          hideTitleAndMenu(){
-             this.$store.dispatch('setMenuVisible',false);
+            //  this.$store.dispatch('setMenuVisible',false);
+            // 使用mapactions即可
+            this.setMenuVisible(false);
          },
          initEpub(){
             //  获得链接
@@ -88,7 +95,8 @@ global.ePub = Epub
      },
      mounted(){
          const fileName = this.$route.params.fileName.split('|').join('/');
-         this.$store.dispatch('setFileName', fileName).then(()=>{
+        //  this.$store.dispatch('setFileName', fileName).then(()=>{
+        this.setFileName(fileName).then(()=>{
              this.initEpub()
          })
         //  console.log(`${baseUrl}${fileName}.epub`); //字符串拼接
