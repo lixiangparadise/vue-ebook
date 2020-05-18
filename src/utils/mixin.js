@@ -36,7 +36,7 @@ export const ebookMixin={
         // 初始化全局样式
         initGlobalStyle(){
             removeAllCss();
-            console.log(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`)
+            // console.log(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`)
             switch (this.defaultTheme) {
                 case 'Default':
                     addCss(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`);

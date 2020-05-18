@@ -71,13 +71,16 @@ import {ebookMixin} from '../../utils/mixin'
          updateProgressBg(){
             this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
          },
+        //  上一章下一章
          prevSection(){},
-         nextSection(){},
-        //  一开始的状态
-         updated() {
-            this.updateProgressBg()
-         }
-     }
+         nextSection(){}
+        
+     },
+     //  一开始的状态
+     //使用updated更新一开始的状态或者直接在css中使用background-size: 0 100%;
+    updated() {
+        this.updateProgressBg();
+    }
  }
 </script>
 
@@ -119,8 +122,7 @@ import {ebookMixin} from '../../utils/mixin'
                 //改变浏览器默认风格
                 -webkit-appearance: none;
                 height: px2rem(2);
-                // background: -webkit-linear-gradient(#999, #999) no-repeat,  #ddd;
-                background-size: 0 100%;
+                // background-size: 0 100%;
                 margin: 0 px2rem(10);
                 &:focus {
                     outline: none;
