@@ -12,7 +12,7 @@ import {ebookMixin} from '../../utils/mixin'
 import Epub from 'epubjs'
 import { getFontFamily, saveFontFamily, 
          getFontSize, saveFontSize, 
-         getTheme, saveTheme } from '../../utils/localStorage'
+         getTheme, saveTheme, getLocation } from '../../utils/localStorage'
 import { addCss } from '../../utils/book'
 global.ePub = Epub
  export default {
@@ -33,14 +33,20 @@ global.ePub = Epub
          //调用下一页的功能
          nextPage(){
              if(this.rendition){
-                 this.rendition.next();
+                 this.rendition.next().then(()=>{
+                     //  下一页需要保存location
+                     this.refreshLocation();
+                 });
                  this.hideTitleAndMenu();
              }
          },
          //上一页
          prevPage(){
              if(this.rendition){
-                 this.rendition.prev();
+                 this.rendition.prev().then(()=>{
+                    //  上一页需要保存location
+                     this.refreshLocation();
+                 });
                  this.hideTitleAndMenu();
              }
          },
@@ -113,8 +119,23 @@ global.ePub = Epub
             })
             //display返回promise对象使用then执行下一步
             //重新载入的时候查看是否有缓存
-            this.rendition.display().then(()=>{
-                //获取缓存中的字体
+            // this.rendition.display().then(()=>{
+            //     //获取缓存中的字体
+            //     this.initFontFamily();
+            //     //获取缓存中的字号
+            //     this.initFontSize();
+            //     //设置theme
+            //     this.initTheme();
+            //     // 初始化全局样式
+            //     this.initGlobalStyle();
+
+            //     this.refreshLocation();
+            // });
+            // 原先是上述方法，但是可以复用display方法
+            const location = getLocation(this.fileName);
+            // 如果location没有缓存则直接显示display()，否则显示display(location)
+            this.display(location, ()=>{
+                 //获取缓存中的字体
                 this.initFontFamily();
                 //获取缓存中的字号
                 this.initFontSize();
@@ -123,6 +144,7 @@ global.ePub = Epub
                 // 初始化全局样式
                 this.initGlobalStyle();
             });
+            
 
             // ebook渲染在iframe中所以不能直接通过引入字体文件修改web字体
             //addStylesheet参数必须是url
@@ -179,6 +201,7 @@ global.ePub = Epub
             //调用method中的方法
             this.initRedition();//rendition
             this.initGesture();//手势操作
+            
             //通过epubjs的钩子函数实现获取Locations对象
             //Location对象默认不加载
             //分页
@@ -191,9 +214,11 @@ global.ePub = Epub
             }).then(result=>{
               //保存locations对象
               //epubcfi定位
-            //   this.locations = this.book.locations;
+              //this.locations = this.book.locations;
               //标记电子书为解析完成状态
               this.setBookAvailable(true);
+              //分页后有progress
+              this.refreshLocation();
              })
          }
      },

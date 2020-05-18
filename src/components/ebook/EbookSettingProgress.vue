@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import {ebookMixin} from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
  export default {
      mixins:[ebookMixin],
     //  通过计算属性获得目录名称
@@ -61,7 +61,6 @@ import {ebookMixin} from '../../utils/mixin'
          onProgressChange(progress){
              this.setProgress(progress).then(()=>{
                  this.displayProgress();
-                 
                  this.updateProgressBg();
              });
          },
@@ -80,7 +79,12 @@ import {ebookMixin} from '../../utils/mixin'
              //获得百分比位于的cfi位置
              const cfi = this.currentBook.locations.cfiFromPercentage(percentage);
              //渲染
-             this.currentBook.rendition.display(cfi);
+            //  this.currentBook.rendition.display(cfi).then(()=>{
+            //     //  调整进度条保存位置
+            //      this.refreshLocation();
+            //  });
+            // 调用复用函数
+            this.display(cfi);
          },
         //  左右两边颜色不一样
          updateProgressBg(){
@@ -112,20 +116,27 @@ import {ebookMixin} from '../../utils/mixin'
              if(secInfo && secInfo.href){
                 //  显示当前章节  
                 //后 需要刷新进度条位置
-                 this.currentBook.rendition.display(secInfo.href).then(()=>{
-                     this.refreshLocation();
-                 });
+                //  this.currentBook.rendition.display(secInfo.href).then(()=>{
+                //     //  调整章节时保存位置
+                //      this.refreshLocation();
+                //  });
+                 this.display(secInfo.href);
              } 
-         },
-        //  刷新进度条
-         refreshLocation(){
-             //获得当前位置
-             const currentLocation = this.currentBook.rendition.currentLocation();
-             //获取当前cfi位置currentLocation.start.cfi的进度百分比
-             const progress = this.currentBook.locations.percentageFromCfi(currentLocation.start.cfi);
-            //  设置进度条
-             this.setProgress(Math.floor(progress*100));
          }
+        //  放入mixin中复用
+        //  //  刷新进度条
+        //  refreshLocation(){
+        //      //获得当前位置
+        //      const currentLocation = this.currentBook.rendition.currentLocation();
+        //      //  取当前cfi位置
+        //      const startCfi = currentLocation.start.cfi;
+        //      //获取当前cfi位置startCfi的进度百分比
+        //      const progress = this.currentBook.locations.percentageFromCfi(startCfi);
+        //     //  设置进度条
+        //      this.setProgress(Math.floor(progress*100));
+        //      //localstorage 保存切换章节时的位置
+        //      saveLocation(this.fileName, startCfi);
+        //  }
      },
      //  一开始的状态
      //使用updated更新一开始的状态或者直接在css中使用background-size: 0 100%;

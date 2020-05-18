@@ -85,3 +85,12 @@ export function saveLocale(locale){
 export function getLocale(){
     return getLocalStorage('locale');
 }
+
+//cfi位置
+// 当前电子书的阅读进度
+export function getLocation(fileName) {
+    return getBookObject(fileName, 'location')
+}
+export function saveLocation(fileName, location) {
+    setBookObject(fileName, 'location', location)
+}
