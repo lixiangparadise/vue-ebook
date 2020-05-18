@@ -23,8 +23,13 @@ const actions = {
     },
     setDefaultTheme({ commit }, defaultTheme){
         return commit('SET_DEFAULTTHEME', defaultTheme)
+    },
+    setProgress({ commit }, progress){
+        return commit('SET_PROGRESS', progress)
+    },
+    setBookAvailable({ commit }, bookAvailable){
+        return commit('SET_BOOK_AVAILABLE', bookAvailable)
     }
-    
     
 }
 export default actions;

@@ -103,17 +103,8 @@ global.ePub = Epub
              // 选择默认样式
              this.rendition.themes.select(defaultTheme);
          },
-         
-         initEpub(){
-            //  获得链接
-            //  const url = "http://localhost:9000/epub/" + this.fileName + '.epub';
-             const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub';
-            //  console.log(url);
-            //新建实例
-            this.book = new Epub(url);
-            //保存
-            this.setCurrentBook(this.book);
-            //通过rendition渲染
+         initRedition(){
+             //通过rendition渲染
             this.rendition = this.book.renderTo('read',{
                 width: innerWidth,
                 height: innerHeight,
@@ -132,7 +123,25 @@ global.ePub = Epub
                 // 初始化全局样式
                 this.initGlobalStyle();
             });
-            // 电子书使用iframe标签显示
+
+            // ebook渲染在iframe中所以不能直接通过引入字体文件修改web字体
+            //addStylesheet参数必须是url
+            this.rendition.hooks.content.register(contents=>{
+                //简化url
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`);
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`);
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`);
+                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`);
+                /*contents.addStylesheet('http://192.168.3.17:9000/fonts/daysOne.css');
+                contents.addStylesheet('http://192.168.3.17:9000/fonts/cabin.css');
+                contents.addStylesheet('http://192.168.3.17:9000/fonts/montserrat.css');
+                contents.addStylesheet('http://192.168.3.17:9000/fonts/tangerine.css');*/
+                //也可以采用异步的方式，即上述过程结束后可以做其他工作
+                // Promise.all([上述四句]).then(()=>{})
+            })
+         },
+         initGesture(){
+             // 电子书使用iframe标签显示
             // iframe添加手势滑动监听
             this.rendition.on("touchstart", event=>{
                 this.touchStartX = event.changedTouches[0].clientX;
@@ -157,21 +166,35 @@ global.ePub = Epub
                 event.preventDefault();//该方法将通知 Web 浏览器不要执行与事件关联的默认动作（如果存在这样的动作）
                 event.stopPropagation();//阻止捕获和冒泡阶段中当前事件的进一步传播。
             });
-            // ebook渲染在iframe中所以不能直接通过引入字体文件修改web字体
-            //addStylesheet参数必须是url
-            this.rendition.hooks.content.register(contents=>{
-                //简化url
-                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`);
-                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`);
-                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`);
-                contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`);
-                /*contents.addStylesheet('http://192.168.3.17:9000/fonts/daysOne.css');
-                contents.addStylesheet('http://192.168.3.17:9000/fonts/cabin.css');
-                contents.addStylesheet('http://192.168.3.17:9000/fonts/montserrat.css');
-                contents.addStylesheet('http://192.168.3.17:9000/fonts/tangerine.css');*/
-                //也可以采用异步的方式，即上述过程结束后可以做其他工作
-                // Promise.all([上述四句]).then(()=>{})
-            })
+         },
+         initEpub(){
+            //  获得链接
+            //  const url = "http://localhost:9000/epub/" + this.fileName + '.epub';
+             const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub';
+            //  console.log(url);
+            //新建实例
+            this.book = new Epub(url);
+            //保存
+            this.setCurrentBook(this.book);
+            //调用method中的方法
+            this.initRedition();//rendition
+            this.initGesture();//手势操作
+            //通过epubjs的钩子函数实现获取Locations对象
+            //Location对象默认不加载
+            //分页
+            //book解析完成调用ready
+            this.book.ready.then(()=>{
+                //参数：一页字数
+                // 粗糙分页
+                return this.book.locations.generate(
+                    750 * (window.innerWidth / 375) * (getFontSize(this.fileName) / 16));
+            }).then(result=>{
+              //保存locations对象
+              //epubcfi定位
+            //   this.locations = this.book.locations;
+              //标记电子书为解析完成状态
+              this.setBookAvailable(true);
+             })
          }
      },
      mounted(){

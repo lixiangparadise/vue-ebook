@@ -15,7 +15,10 @@ const book = {
         // 选择字体部分
         fontFamilyVisible: false,
         // 默认主题
-        defaultTheme: 'Default'
+        defaultTheme: 'Default',
+        // 进度条
+        progress:0,
+        bookAvailable: false,
      },
     mutations:{
         SET_FILENAME(state, fileName){
@@ -41,7 +44,13 @@ const book = {
         },
         SET_DEFAULTTHEME(state, defaultTheme){
             state.defaultTheme = defaultTheme;
-        }
+        },
+        SET_PROGRESS(state, progress){
+            state.progress = progress;
+        },
+        SET_BOOK_AVAILABLE(state, bookAvailable){
+            state.bookAvailable = bookAvailable
+        },
     }
     
 }

@@ -11,7 +11,9 @@ export const ebookMixin={
             'currentBook',
             'defaultFontFamily',
             'fontFamilyVisible',
-            'defaultTheme'
+            'defaultTheme',
+            'progress',
+            'bookAvailable'
         ]),
         //  获得themelist数据
         themeList(){
@@ -27,11 +29,14 @@ export const ebookMixin={
             'setCurrentBook',
             'setDefaultFontFamily',
             'setFontFamilyVisible',
-            'setDefaultTheme'
+            'setDefaultTheme',
+            'setProgress',
+            'setBookAvailable'
         ]),
         // 初始化全局样式
         initGlobalStyle(){
             removeAllCss();
+            console.log(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`)
             switch (this.defaultTheme) {
                 case 'Default':
                     addCss(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`);
