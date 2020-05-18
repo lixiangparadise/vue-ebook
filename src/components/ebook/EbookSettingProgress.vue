@@ -30,6 +30,7 @@
             </div>
         </div>
         <div class="text-wrapper">
+            <span class="progress-section-text">{{getSectionName}}</span>
             <span>{{bookAvailable ? progress+'%' : '加载中...'}}</span>
         </div>
     </div>
@@ -41,6 +42,20 @@
 import {ebookMixin} from '../../utils/mixin'
  export default {
      mixins:[ebookMixin],
+    //  通过计算属性获得目录名称
+    computed:{
+        getSectionName(){
+            if(this.section){
+                // 根据章节获得章节内容
+                const sectionInfo = this.currentBook.section(this.section);
+                if(sectionInfo && sectionInfo.href){
+                    // 获取当前目录
+                    return this.currentBook.navigation.get(sectionInfo.href).label;
+                }
+            }
+            return '';
+        }
+    },
      methods:{
         //  拖动改变后的调用方法
          onProgressChange(progress){
@@ -61,7 +76,7 @@ import {ebookMixin} from '../../utils/mixin'
          },
         //  展示当前进度所在的页面
          displayProgress(){
-             const percentage = this.progress / 100;
+             const percentage=this.progress / 100;
              //获得百分比位于的cfi位置
              const cfi = this.currentBook.locations.cfiFromPercentage(percentage);
              //渲染
@@ -72,9 +87,45 @@ import {ebookMixin} from '../../utils/mixin'
             this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
          },
         //  上一章下一章
-         prevSection(){},
-         nextSection(){}
-        
+         prevSection(){
+            //  章节 且 此书解析完毕
+             if(this.section>0 && this.bookAvailable){
+                 this.setSection(this.section-1).then(()=>{
+                     //展示
+                    this.displaySection();
+                 })
+             }
+         },
+         nextSection(){
+             //spine 阅读进度
+            //  console.log(this.currentBook.spine);
+             if(this.section<this.currentBook.spine.length-1 && this.bookAvailable){
+                 this.setSection(this.section+1).then(()=>{
+                     //展示
+                     this.displaySection();
+                 })
+             }
+         },
+         displaySection(){
+              //section api 直接传入章节即可获取当前章节的内容
+             const secInfo = this.currentBook.section(this.section);
+             if(secInfo && secInfo.href){
+                //  显示当前章节  
+                //后 需要刷新进度条位置
+                 this.currentBook.rendition.display(secInfo.href).then(()=>{
+                     this.refreshLocation();
+                 });
+             } 
+         },
+        //  刷新进度条
+         refreshLocation(){
+             //获得当前位置
+             const currentLocation = this.currentBook.rendition.currentLocation();
+             //获取当前cfi位置currentLocation.start.cfi的进度百分比
+             const progress = this.currentBook.locations.percentageFromCfi(currentLocation.start.cfi);
+            //  设置进度条
+             this.setProgress(Math.floor(progress*100));
+         }
      },
      //  一开始的状态
      //使用updated更新一开始的状态或者直接在css中使用background-size: 0 100%;
@@ -146,7 +197,17 @@ import {ebookMixin} from '../../utils/mixin'
             width: 100%;
             color: #333;
             font-size:px2rem(12);
-            text-align: center;
+            // text-align: center;
+            padding: 0 px2rem(15);
+            box-sizing: border-box;
+            @include center;
+            .progress-section-text{
+                @include ellipsis;
+                // //一行显示  封装为上面函数
+                // text-overflow: ellipsis;//多余时使用省略号
+                // overflow: hidden;
+                // white-space: nowrap;//不换行
+            }
         }
     }
 }

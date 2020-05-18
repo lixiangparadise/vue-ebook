@@ -13,7 +13,8 @@ export const ebookMixin={
             'fontFamilyVisible',
             'defaultTheme',
             'progress',
-            'bookAvailable'
+            'bookAvailable',
+            'section'
         ]),
         //  获得themelist数据
         themeList(){
@@ -31,7 +32,8 @@ export const ebookMixin={
             'setFontFamilyVisible',
             'setDefaultTheme',
             'setProgress',
-            'setBookAvailable'
+            'setBookAvailable',
+            'setSection'
         ]),
         // 初始化全局样式
         initGlobalStyle(){

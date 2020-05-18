@@ -19,6 +19,8 @@ const book = {
         // 进度条
         progress:0,
         bookAvailable: false,
+        // 章节
+        section: 0
      },
     mutations:{
         SET_FILENAME(state, fileName){
@@ -51,6 +53,10 @@ const book = {
         SET_BOOK_AVAILABLE(state, bookAvailable){
             state.bookAvailable = bookAvailable
         },
+        SET_SECTION(state, section){
+            state.section = section
+        }
+        
     }
     
 }

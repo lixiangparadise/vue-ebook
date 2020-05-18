@@ -94,10 +94,11 @@ $ratio: 375 / 10;
   margin: auto;
 }
 
+// 一行显示
 @mixin ellipsis {
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;//多余显示省略号
   overflow: hidden;
-  white-space: nowrap;
+  white-space: nowrap;//不换行
 }
 
 @mixin ellipsis2($line) {
